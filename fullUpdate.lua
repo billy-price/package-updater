@@ -89,9 +89,9 @@ end
 
 local function execute(command)
 	print("> " ..  command)
-	local success, exitCode = os.execute(command)
+	local success = os.execute(command)
 	if not success then
-		os.exit(exitCode)
+		os.exit(0)
 	end
 end
 
