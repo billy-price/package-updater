@@ -82,11 +82,6 @@ end
 
 local noPrompt = args[1] == "no_prompt"
 
-if os.getenv("REMODEL_AUTH") == nil then
-	print("Authentication required for REMODEL - please set REMODEL_AUTH environment variable")
-	print("See https://github.com/rojo-rbx/remodel#authentication")
-end
-
 local function execute(command)
 	print("> " ..  command)
 	local success = os.execute(command)

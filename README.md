@@ -7,6 +7,29 @@ With [aftman](https://github.com/LPGhatguy/aftman) installed, run
 aftman install
 ```
 
+### Remodel authentication
+
+Remodel downloads assets via APIs at `https://assetdelivery.roblox.com` and uploads them
+via APIs at `https://data.roblox.com`. Both of these methods require a cookie
+called `.ROBLOSECURITY`, which can be provided as an optional argument to remodel
+with `--auth` or via the environment variable `REMODEL_AUTH`.
+
+The cookie can be found by going to [roblox.com](roblox.com) in your browser,
+then (typically) going to Web Inspector -> Storage -> Cookies.
+
+**Important**:
+- It is recommended to not use your main account for this cookie - at least not if you are storing it somewhere that it could be compromised, since anyone with this cookie can "log in as you and to steal your ROBUX and items".
+- The account must have ownership over the place assets that you are downloading and uploading - either via direct ownership or by being a sufficiently ranked member of the group that owns the place.
+- The cookie changes whenever you logout/login to your account.
+
+To set the `REMODEL_AUTH` environment variable
+- Windows: Click the Windows Icon and search "Environment Variables"
+- Mac: Add the line `export REMODEL_AUTH="cookie"` to `~/.zshrc` (replacing `cookie` with the actual cookie).
+
+Restart any terminals you have open and run `echo $REMODEL_AUTH` on Mac/linux, or `echo $Env:REMODEL_AUTH` on Windows, to confirm you've set it correctly.
+
+Read more about Remodel authentication [here](https://github.com/rojo-rbx/remodel#authentication) 
+
 ## Usage
 ```sh
 # Give (Y/n) prompts for each package update
