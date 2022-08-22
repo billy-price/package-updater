@@ -61,12 +61,14 @@ return function(package, destination, askBeforeReplacing)
 
 	end
 
-	print(("Removing %d existing versions and writing %s"):format(#existingVersions, packageDescription(package)))
+	print(("Removing %d existing versions"):format(#existingVersions))
 
 	for _, instance in ipairs(existingVersions) do
 		instance.Parent = nil
 		changeLog = changeLog..("Removed %s from %s\n"):format(packageDescription(instance), destination.Name)
 	end
+
+	print(("Writing %s to %s"):format(packageDescription(package), destination.Name))
 
 	package.Parent = destination
 	changeLog = changeLog..("Added %s to %s\n"):format(packageDescription(package), destination.Name)

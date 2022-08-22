@@ -1,9 +1,14 @@
+--[[
+	For downloading place files.
+	Usage: download <place_id> <output_path>
+--]]
+
 local args = {...}
 
 if #args ~= 2 then
 
 	print("Incorrect number of arguments. Supply place_id and output file path")
-	print("Usage: rbx-download place_id <output>")
+	print("Usage: download <place_id> <output_path>")
 	return
 end
 

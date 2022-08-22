@@ -1,9 +1,14 @@
+--[[
+	For uploading place files.
+	Usage: rbx-upload <place_file> <place_id>
+--]]
+
 local args = {...}
 
 if #args ~= 2 then
 
 	print("Incorrect number of arguments. Supply place file and placeId")
-	print("Usage: rbx-upload <place_file> place_id")
+	print("Usage: rbx-upload <place_file> <place_id>")
 	return
 end
 

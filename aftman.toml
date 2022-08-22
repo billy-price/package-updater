@@ -1,3 +1,5 @@
 [tools]
 remodel = "rojo-rbx/remodel@0.10.0"
 rojo = "rojo-rbx/rojo@7.2.1"
+selene = "Kampfkarren/selene@0.20.0"
+stylua = "JohnnyMorganz/stylua@0.14.2"

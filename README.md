@@ -43,6 +43,7 @@ Instance.new(className: string): Instance
 <DataModel>:GetService(name: string): Instance
 ```
 to download/load/modify/publish roblox place assets and model assets.
+It uses `rojo build` to build the release version of each package.
 
 The script `fullUpdate.lua` does the following
 - Build all of the packages specified in `config.PackageProjectFiles` to `.rbxm` files using [rojo](https://github.com/rojo-rbx/rojo)
@@ -54,6 +55,9 @@ The script `fullUpdate.lua` does the following
 		- Prompt the user for confirmation to replace them with the newly built package
 		- Replace existing packages with newly built package (using `<Instance>.Parent`)
 	- Store change log for each package to Script instance called `PackageUpdateChangelog` and put in ServerStorage (replacing existing one if it's there)
+
+To modify or execute only a part of this workflow, you can either modify the `fullUpdate` script directly, or you can
+make use of `rojo build` to build the packages, and `remodel run download.lua`, `remodel run update.lua` and `remodel run upload.lua`, which create, modify and read place files. See the respective scripts for usage details.
 
 ## Versioning
 

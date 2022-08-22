@@ -5,11 +5,7 @@ if os.rename("config.lua", "config.lua") == nil then
 
 	local file = io.open("config.lua", "w")
 	file:write(
-[[local PackageProjectFiles = {
-	-- e.g. metaboard = /path/to/metaboard/release.project.json
-}
-
-local getSSS = function(game)
+[=[local getSSS = function(game)
 	return game:GetService("ServerScriptService")
 end
 
@@ -33,24 +29,41 @@ local getChatModules = function(game)
 	return ChatModules
 end
 
-local PackageDestination = {
-	-- -- examples (keys must match PackageProjectFiles)
-	-- metaboard = getSSS,
-	-- metaportal = getSSS,
-	-- admin = getChatModules,
-}
-
-local PlaceIds = {
-	-- Key does not need to match actual published name of place
-	-- e.g. TRS = "123456789",
-}
+--[[
+	All package name keys must match the name of the top level instance
+--]]
 
 return {
-	PackageProjectFiles = PackageProjectFiles,
-	PackageDestination = PackageDestination,
-	PlaceIds = PlaceIds
+
+	--[[
+		Path to project file of the release version of each package
+	--]]
+	PackageProjectFiles = {
+		-- e.g
+		-- metaboard = "/path/to/metaboard/release.project.json"
+	},
+
+	--[[
+		Functions which retrieve the target parent instance of the package given
+		a DataModel (i.e. game).
+	--]]
+	PackageDestination = {
+		-- e.g.
+		-- metaboard = getSSS,
+		-- metaportal = getSSS,
+		-- AdminCommands = getChatModules,
+	},
+
+	--[[
+		PlaceIds of places to update packages in. Key does not need to match actual
+		publish name of place.
+	--]]
+	PlaceIds = {
+		-- e.g.
+		-- TRS = "123456789"
+	}
 }
-]])
+]=])
 	file:close()
 	return
 end
@@ -124,9 +137,10 @@ for placeName, placeId in pairs(config.PlaceIds) do
 
 	if next(packageChangeLogs) then
 
+		-- UTC timestamp that matches the format used in Version History
 		local timeStamp = os.date("!%m/%d/%Y %I:%M:%S %p")
 
-		local changeLog = "Update at "..timeStamp.."\n"
+		local changeLog = "Update at "..timeStamp.."\n\n"
 
 		for packageName, packageChangeLog in pairs(packageChangeLogs) do
 			changeLog = changeLog..(("[%s]\n%s\n"):format(packageName, packageChangeLog))
