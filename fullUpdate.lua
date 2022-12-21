@@ -132,26 +132,40 @@ for placeName, placeId in pairs(config.PlaceIds) do
 
 	if next(packageChangeLogs) then
 
-		-- UTC timestamp that matches the format used in Version History
-		local timeStamp = os.date("!%m/%d/%Y %I:%M:%S %p")
+		while true do
+			
+			-- UTC timestamp that matches the format used in Version History
+			local timeStamp = os.date("!%m/%d/%Y %I:%M:%S %p")
+			
+			local changeLog = "Update at "..timeStamp.."\n\n"
+			
+			for packageName, packageChangeLog in pairs(packageChangeLogs) do
+				changeLog = changeLog..(("[%s]\n%s\n"):format(packageName, packageChangeLog))
+			end
+			
+			local changeLogScript = game:GetService("ServerStorage"):FindFirstChild("PackageUpdateChangeLog")
+			if not changeLogScript then
+				changeLogScript = Instance.new("Script")
+				changeLogScript.Name = "PackageUpdateChangeLog"
+				changeLogScript.Parent = game:GetService("ServerStorage")
+			end
+			
+			remodel.setRawProperty(changeLogScript, "Source", "String", "--[[\nTHIS SCRIPT WILL BE REPLACED EVERY PACKAGE UPDATE\n\n"..changeLog.."]]--")
+			
+			print("Publishing updated place to "..placeId, "(timestamp: "..timeStamp..")")
+			local success, result = pcall(remodel.writeExistingPlaceAsset, game, placeId)
 
-		local changeLog = "Update at "..timeStamp.."\n\n"
+			if success then
+				
+				break
+			else
 
-		for packageName, packageChangeLog in pairs(packageChangeLogs) do
-			changeLog = changeLog..(("[%s]\n%s\n"):format(packageName, packageChangeLog))
+				print("Publish failed:", result)
+				print("Retrying (in 5 seconds)...")
+				os.execute("sleep " .. tostring(5))
+			end
 		end
 
-		local changeLogScript = game:GetService("ServerStorage"):FindFirstChild("PackageUpdateChangeLog")
-		if not changeLogScript then
-			changeLogScript = Instance.new("Script")
-			changeLogScript.Name = "PackageUpdateChangeLog"
-			changeLogScript.Parent = game:GetService("ServerStorage")
-		end
-
-		remodel.setRawProperty(changeLogScript, "Source", "String", "--[[\nTHIS SCRIPT WILL BE REPLACED EVERY PACKAGE UPDATE\n\n"..changeLog.."]]--")
-
-		print("Publishing updated place to "..placeId, "(timestamp: "..timeStamp..")")
-		remodel.writeExistingPlaceAsset(game, placeId)
 		print(("Version History: https://www.roblox.com/places/%s/update#"):format(placeId))
 	else
 		print("No changes made to "..placeName..". Not publishing.")
